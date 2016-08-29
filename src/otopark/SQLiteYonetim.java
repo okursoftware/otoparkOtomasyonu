@@ -22,7 +22,7 @@ public class SQLiteYonetim {
     private static Connection con;
     private static boolean hasData = false;
     DateFormat df = new SimpleDateFormat("HH:mm");
-    DateFormat df1 = new SimpleDateFormat("yyyy/MM/dd");
+    DateFormat df1 = new SimpleDateFormat("dd/MM/yyyy");
 
     Timestamp stamp = new Timestamp(System.currentTimeMillis());
     Date date = new Date(stamp.getTime());
@@ -56,7 +56,7 @@ public class SQLiteYonetim {
 
     }
 
-    public void deleteUser(String veri) throws ClassNotFoundException, SQLException {
+    public void deleteUser(int veri) throws ClassNotFoundException, SQLException {
 
         System.out.println("silme fonksiyonu  " + veri);
         // PreparedStatement prep;
@@ -64,7 +64,7 @@ public class SQLiteYonetim {
 
         Statement state = con.createStatement();
 
-        ResultSet res = state.executeQuery("delete from user where date = '" + veri + "' ");
+        ResultSet res = state.executeQuery("delete from user where id='" + veri + "' ");
 
     }
 
@@ -87,8 +87,8 @@ public class SQLiteYonetim {
         Statement state = con.createStatement();
 
         ResultSet res = state.executeQuery("select id,ucret,stamp from user");
-        long  c, d;
-int i;
+        long c, d;
+        int i;
         while (res.next()) {
 
             String id1 = res.getString("id");
@@ -101,26 +101,22 @@ int i;
                 System.out.println(d);
                 c = d / 1000 / 60;
                 int alinacakPara = 0;
-                if(30<c&&c<60){
+                if (30 < c && c < 60) {
                     alinacakPara = 5;
-                }else if(c>=60){
-                    c=c/60;
-                    
+                } else if (c >= 60) {
+                    c = c / 60;
+
                     for (i = 0; i < c; i++) {
 
-                            alinacakPara += ucret;
+                        alinacakPara += ucret;
 
-                        }
-                   
+                    }
+
                 }
-                 JOptionPane.showMessageDialog(null,"Üçret = "+ alinacakPara+"TL");
-                
-           
-
+                JOptionPane.showMessageDialog(null, "Üçret = " + alinacakPara + "TL");
 
             }
         }
-       
 
     }
 
@@ -155,6 +151,7 @@ int i;
                 prep.setInt(4, 38);
                 prep.setString(5, tarih);
                 prep.setString(6, saat);
+                prep.setTimestamp(7, stamp);
 
                 prep.execute();
 
