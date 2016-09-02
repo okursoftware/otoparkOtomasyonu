@@ -26,6 +26,7 @@ public class OtoparkMain extends javax.swing.JFrame {
         seticon();
        tabloYenile();
        tablo2Yenile();
+       //deneme
        
         
 
